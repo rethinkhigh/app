@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Rethink Schools</title>
+	    <link href="css/ratchet.css" rel="stylesheet">
+
+    <link href="css/ratchet-theme-ios.css" rel="stylesheet">
+    <script src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/ratchet.js"></script>
+     <script type="text/javascript" src="js/ractive.js"></script>
+     <script src="js/jquery-migrate-1.0.0.js"></script>
+     <link rel="stylesheet" type="text/css" media="all" href="css/jquery-ui.css" />
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+  <script type="text/javascript">
+  $(function() {
+    $( "#datepicker" ).datepicker({ dateFormat: 'dd-mm-yy' });
+  });
+  </script>
+
+    <style type="text/css">
+    .school-device{
+position: relative;
+top: 5px;
+display: block;
+width: 395px;
+height: 813px;
+ float:left;
+ overflow-y: auto;
+    margin-right:5px;
+font-family: "Helvetica Neue",sans-serif;
+background-image: url("device-sprite.png");
+background-repeat: no-repeat;
+background-position: 0px 0px;
+background-size: 300% auto;
+}
+
+.school-device .school-device-content{
+
+    position: absolute;
+top: 117px;
+left: 37px;
+width: 321px;
+height: 569px;
+overflow: hidden;
+font-size: 17px;
+line-height: 21px;
+overflow-y: auto;
+background-color: #FFF;}
+
+.parent-device{
+	position: relative;
+top: 5px;
+display: block;
+width: 395px;
+height: 813px;
+margin-right:10px;
+overflow-y: auto;
+font-family: "Helvetica Neue",sans-serif;
+background-image: url("device-sprite.png");
+background-repeat: no-repeat;
+background-position: 0px 0px;
+background-size: 300% auto;
+right: 8px;  float: right
+}
+.student-device{
+	position: relative;
+top: 5px;
+display: block;
+width: 395px;
+height: 813px;
+margin-right:10px;
+overflow-y: auto;
+
+font-family: "Helvetica Neue",sans-serif;
+background-image: url("device-sprite.png");
+background-repeat: no-repeat;
+background-position: 0px 0px;
+background-size: 300% auto;
+right:10px;  float:right;
+}
+
+.student-device .student-device-content{
+
+    position: absolute;
+top: 117px;
+left: 37px;
+width: 321px;
+height: 569px;
+overflow-y: auto;
+font-size:17px;
+line-height: 21px;
+background-color: #FFF;
+}
+.parent-device .parent-device-content{
+
+    position: absolute;
+top: 117px;
+left: 37px;
+width: 321px;
+height: 569px;
+overflow-y: auto;
+font-size: 17px;
+line-height: 21px;
+background-color: #FFF;}
+
+
+</style>
+
+</head>
+<body style:  "overflow-y: scroll;"  >
+ <h1>Please use CTRL+- or CTRL+mousewheel to adjust zoom</h1> 
+ <div id="school-device" class="school-device">
+
+<div id="school-device-content" class="school-device-content">
+	Batch:
+<select id="std">
+	<option value="2015">2015</option>
+	<option value="2014">2014</option>
+	<option value="2013">2013</option>
+	<option value="2012">2012</option>
+	<option value="2010">2010</option>
+</select>
+	Course:
+<select id="sec">
+	<option value="MBA">MBA</option>
+	<option value="MCA">MCA</option>
+	<option value="+2Arts">+2Arts</option>
+	<option value="BCOM">BCOM</option>
+	<option value="+2Science">+2Science</option>
+</select>
+	Sub:
+<select id="sub">
+	<option value="Maths-1">Maths-1</option>
+	<option value="Physics-1">Physics-1</option>
+	<option value="Chemestry-1">Chemistry-1</option>
+	<option value="History">History</option>
+	<option value="Biology">Biology</option>
+	<option value="Biology">*</option>
+</select>
+	Type:
+<select id="type">
+	<option value="Assignment">Assignment</option>
+	<option value="Classwork">Classwork</option>
+	<option value="Test">Test</option>
+	<option value="Event">Event</option>
+</select>
+Date:
+<input type="text" id="datepicker">
+Details:
+<textarea id="details" cols="5" placeholder="choose the options and type the details"></textarea>
+<button class="btn btn-primary btn-block" onclick="doc_create();">Create</button>
+</div>
+</div>
+
+<div class="student-device" >
+<div class="student-device-content">
+
+</div>
+
+</div>
+<!--parent-->
+<div  class="parent-device">
+<div  class="parent-device-content">
+
+</div>
+</div>
+<!--parent-->
+
+
+
+
+</body>
+<script type="text/javascript">
+var g_docs=[];
+function doc_create(){
+if($('#datepicker').val()&& $('#details').val()){
+var doc={
+		std:$('#std').val(),
+		sec:$('#sec').val(),
+		sub:$('#sub').val(),
+		type:$('#type').val(),
+		date:$('#datepicker').val(),
+		details:$('#details').val()
+	};
+	$('#details').val("");
+	g_docs.unshift(doc);
+
+}else{
+	alert("Please fill up the details");
+}
+
+	
+
+}
+</script>
+
+  <script id='parentTemplate' type='text/ractive'>
+
+     <div class="content-padded" style="text-align:center">
+<h3>Parent</h3>
+ </div>
+ <ul class="table-view">
+{{#docs}}
+  <li class="table-view-cell" intro="fade" style="border:thin">
+
+
+ 		<p><span class="badge badge-primary">{{this.sub}}</span> <span class="badge badge-positive">{{this.type}}</span></p>
+        <p><b>{{this.date}}</b></p>
+        <p>{{this.details}}</p>
+  
+ 
+  </li>
+  {{/docs}}
+  </ul>
+  </script>
+
+    <script id='studentTemplate' type='text/ractive'>
+       <div class="content-padded" style="text-align:center">
+<h3>Student</h3>
+ </div>
+ <ul class="table-view">
+{{#docs}}
+  <li class="table-view-cell" intro="fade" style="border:thin">
+
+
+ 		<p><span class="badge badge-primary">{{this.sub}}</span> <span class="badge badge-positive">{{this.type}}</span></p>
+        <p><b>{{this.date}}</b></p>
+        <p>{{this.details}}</p>
+   
+ 
+  </li>
+  {{/docs}}
+  </ul>
+  </script>
+
+   <script>
+    var parentRac = new Ractive({
+      // The `el` option can be a node, an ID, or a CSS selector.
+      el: '.parent-device-content',
+
+      // We could pass in a string, but for the sake of convenience
+      // we're passing the ID of the <script> tag above.
+      template: '#parentTemplate',
+
+      // Here, we're passing in some initial data
+      data: {docs:g_docs},
+      magic: true
+ 
+    });
+  </script>
+
+     <script>
+    var studentRac = new Ractive({
+      // The `el` option can be a node, an ID, or a CSS selector.
+      el: '.student-device-content',
+
+      // We could pass in a string, but for the sake of convenience
+      // we're passing the ID of the <script> tag above.
+      template: '#studentTemplate',
+
+      // Here, we're passing in some initial data
+      data: {docs:g_docs},
+      magic:true
+    });
+  </script>
+  <script>
+  var doc1={
+
+  	 std: "1", sec: "C", sub:"Maths-1", type:"Assignment", date:"17-07-2015", details:"Problems 1 to 10,Pg-103" 
+  };
+   var doc2={
+
+  	 std: "1", sec: "C", sub:"Physics", type:"Test", date:"26-08-2015", details:"Ch-1,Book:NCERT" 
+  };
+document.body.style.zoom="300%";
+  g_docs.push(doc1);
+   g_docs.push(doc2);
+
+  </script>
+</html>
